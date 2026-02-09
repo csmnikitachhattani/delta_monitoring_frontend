@@ -20,37 +20,99 @@ const numberFieldProps = {
 export default function DepartmentMetricsForm() {
   const [departments, setDepartments] = useState([]);
   const [selectedDept, setSelectedDept] = useState("");
+  const today = new Date().toISOString().split("T")[0];
 
-  
-const getDepartmentsByUserId = async () => {
-  const userId = localStorage.getItem("user_id");
+const yesterday = new Date();
+yesterday.setDate(yesterday.getDate() - 1);
+const yesterdayDate = yesterday.toISOString().split("T")[0];
+  // ✅ ADDED: form state
+  const [formData, setFormData] = useState({
+    entryDate: "",
+    pressRelease: "",
+    successStories: "",
+    nationalStories: "",
+    stateFundPost: "",
+    twitterPosts: "",
+    facebookPosts: "",
+    instagramPosts: "",
+  });
 
-  if (!userId) {
-    throw new Error("User ID not found in localStorage");
-  }
+  const getDepartmentsByUserId = async () => {
+    const userId = localStorage.getItem("user_id");
 
-  const response = await axios.get(
-    `http://localhost:3001/api/auth/departments/${userId}`
-  );
-  console.log(response)
-  return response.data;
-};
-
-useEffect(() => {
-  const fetchDepartments = async () => {
-    try {
-      const res = await getDepartmentsByUserId();
-      console.log("useEffect", res.data)
-      setDepartments(res.data);
-    } catch (err) {
-      console.error(err.message);
-    } finally {
-      console.log("hkbjbghjg")
+    if (!userId) {
+      throw new Error("User ID not found in localStorage");
     }
+
+    const response = await axios.get(
+      `http://localhost:3001/api/auth/departments/${userId}`
+    );
+    return response.data;
   };
 
-  fetchDepartments();
-}, []);
+  useEffect(() => {
+    const fetchDepartments = async () => {
+      try {
+        const res = await getDepartmentsByUserId();
+        setDepartments(res.data);
+      } catch (err) {
+        console.error(err.message);
+      }
+    };
+
+    fetchDepartments();
+  }, []);
+
+  // ✅ ADDED: handle input change
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+    console.log(formData)
+  };
+
+  // ✅ ADDED: submit POST API
+  const handleSubmit = async () => {
+    const userId = localStorage.getItem("user_id");
+
+    if (!userId || !selectedDept) {
+      alert("Please select department");
+      return;
+    }
+
+    const payload = {
+      user_id: userId,
+      deptId: selectedDept,
+      departmentName: 'सामान्य प्रशासन',
+      ...formData,
+    };
+
+    try {
+      await axios.post(
+        "http://localhost:3001/api/auth/district-daily-entry",
+        payload
+      );
+
+      alert("Submitted successfully");
+
+      // reset (optional but safe)
+      setFormData({
+        pressRelease: "",
+        successStories: "",
+        nationalStories: "",
+        stateFundPost: "",
+        twitterPosts: "",
+        facebookPosts: "",
+        instagramPosts: "",
+      });
+      setSelectedDept("");
+    } catch (error) {
+      console.error(error);
+      alert("Submission failed");
+    }
+  };
 
   return (
     <Box
@@ -90,44 +152,61 @@ useEffect(() => {
         </Typography>
 
         <TextField
-      select
-      fullWidth
-      label="Department"
-      margin="normal"
-      required
-      value={selectedDept}
-      onChange={(e) => setSelectedDept(e.target.value)}
-    >
-      {Array.isArray(departments) && departments.length > 0 ? (
-  departments.map((dept) => (
-    <MenuItem key={dept.dept_id} value={dept.dept_id}>
-      {dept.dept_name}
-    </MenuItem>
-  ))
-) : (
-  <MenuItem disabled>No departments available</MenuItem>
-)}
-    </TextField>
+          select
+          fullWidth
+          label="Department"
+          margin="normal"
+          required
+          value={selectedDept}
+          onChange={(e) => setSelectedDept(e.target.value)}
+        >
+          {Array.isArray(departments) && departments.length > 0 ? (
+            departments.map((dept) => (
+              <MenuItem key={dept.dept_id} value={dept.dept_id}>
+                {dept.dept_name}
+              </MenuItem>
+            ))
+          ) : (
+            <MenuItem disabled>No departments available</MenuItem>
+          )}
+        </TextField>
+        <TextField
+  fullWidth
+  label="Activity Date"
+  type="date"
+  margin="normal"
+  required
+  name="entryDate"
+  value={formData.entryDate}
+  onChange={handleChange}
+  InputLabelProps={{ shrink: true }}
+  inputProps={{
+    min: yesterdayDate,
+    max: today,
+  }}
+  sx={fieldStyle}
+/>
 
-        <TextField fullWidth label="Press Release" margin="normal" {...numberFieldProps} sx={fieldStyle} />
-        <TextField fullWidth label="Success Stories" margin="normal" {...numberFieldProps} sx={fieldStyle} />
-        <TextField fullWidth label="Stories Published Nationally" margin="normal" {...numberFieldProps} sx={fieldStyle} />
-        <TextField fullWidth label="State Fund Post" margin="normal" {...numberFieldProps} sx={fieldStyle} />
-        <TextField fullWidth label="Twitter Posts" margin="normal" {...numberFieldProps} sx={fieldStyle} />
-        <TextField fullWidth label="Facebook Posts" margin="normal" {...numberFieldProps} sx={fieldStyle} />
-        <TextField fullWidth label="Instagram Posts" margin="normal" {...numberFieldProps} sx={fieldStyle} />
+        <TextField fullWidth label="Press Release" name="pressRelease" value={formData.pressRelease} onChange={handleChange} margin="normal" {...numberFieldProps} sx={fieldStyle} />
+        <TextField fullWidth label="Success Stories" name="successStories" value={formData.successStories} onChange={handleChange} margin="normal" {...numberFieldProps} sx={fieldStyle} />
+        <TextField fullWidth label="Stories Published Nationally" name="nationalStories" value={formData.nationalStories} onChange={handleChange} margin="normal" {...numberFieldProps} sx={fieldStyle} />
+        <TextField fullWidth label="State Fund Post" name="stateFundPost" value={formData.stateFundPost} onChange={handleChange} margin="normal" {...numberFieldProps} sx={fieldStyle} />
+        <TextField fullWidth label="Twitter Posts" name="twitterPosts" value={formData.twitterPosts} onChange={handleChange} margin="normal" {...numberFieldProps} sx={fieldStyle} />
+        <TextField fullWidth label="Facebook Posts" name="facebookPosts" value={formData.facebookPosts} onChange={handleChange} margin="normal" {...numberFieldProps} sx={fieldStyle} />
+        <TextField fullWidth label="Instagram Posts" name="instagramPosts" value={formData.instagramPosts} onChange={handleChange} margin="normal" {...numberFieldProps} sx={fieldStyle} />
 
         <Button
           fullWidth
           size="large"
+          onClick={handleSubmit}
           sx={{
             mt: 3,
             py: 1.3,
             borderRadius: 2,
             fontWeight: 600,
-            backgroundColor: '#000',
-            color: '#fff',
-            '&:hover': { backgroundColor: '#333' },
+            backgroundColor: "#000",
+            color: "#fff",
+            "&:hover": { backgroundColor: "#333" },
           }}
         >
           Submit
@@ -138,11 +217,11 @@ useEffect(() => {
 }
 
 const fieldStyle = {
-  '& .MuiOutlinedInput-root': {
+  "& .MuiOutlinedInput-root": {
     borderRadius: 2,
-    '& fieldset': { borderColor: 'rgba(0,0,0,0.25)' },
-    '&:hover fieldset': { borderColor: '#000' },
-    '&.Mui-focused fieldset': { borderColor: '#000' },
+    "& fieldset": { borderColor: "rgba(0,0,0,0.25)" },
+    "&:hover fieldset": { borderColor: "#000" },
+    "&.Mui-focused fieldset": { borderColor: "#000" },
   },
-  '& label': { color: '#9e9e9e' },
+  "& label": { color: "#9e9e9e" },
 };
