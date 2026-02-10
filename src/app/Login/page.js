@@ -2,6 +2,8 @@
 
 import * as React from "react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+
 import {
   Box,
   Button,
@@ -14,6 +16,7 @@ import {
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 
 export default function LoginForm() {
+  const router = useRouter();
   const [userid, setUserid] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [loading, setLoading] = React.useState(false);
@@ -42,7 +45,7 @@ export default function LoginForm() {
         localStorage.setItem("token", result.token);
         localStorage.setItem("user_id", result.userid);
         localStorage.setItem("user", JSON.stringify(result));
-
+        router.push(`/form`);
         alert("Login successful");
         // router.push("/dashboard") → if using next/navigation
       } else {

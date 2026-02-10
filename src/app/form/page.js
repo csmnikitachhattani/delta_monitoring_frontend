@@ -18,6 +18,7 @@ const numberFieldProps = {
 };
 
 export default function DepartmentMetricsForm() {
+  const router = useRouter();
   const [departments, setDepartments] = useState([]);
   const [selectedDept, setSelectedDept] = useState("");
   const today = new Date().toISOString().split("T")[0];
@@ -94,7 +95,7 @@ const yesterdayDate = yesterday.toISOString().split("T")[0];
         "http://localhost:3001/api/auth/district-daily-entry",
         payload
       );
-
+    
       alert("Submitted successfully");
 
       // reset (optional but safe)
@@ -108,6 +109,7 @@ const yesterdayDate = yesterday.toISOString().split("T")[0];
         instagramPosts: "",
       });
       setSelectedDept("");
+      router.push(`/table`);
     } catch (error) {
       console.error(error);
       alert("Submission failed");
