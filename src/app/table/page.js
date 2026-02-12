@@ -12,7 +12,11 @@ import {
   TableRow,
   Typography,
   CircularProgress,
+  IconButton,
 } from "@mui/material";
+
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 export default function DepartmentDailyEntry() {
   const [data, setData] = useState([]);
@@ -36,14 +40,22 @@ export default function DepartmentDailyEntry() {
     fetchData();
   }, []);
 
+  const handleEdit = (row) => {
+    console.log("Edit clicked:", row);
+    // TODO: Navigate to edit page or open modal
+  };
+
+  const handleDelete = (row) => {
+    console.log("Delete clicked:", row);
+    // TODO: Show confirmation dialog
+  };
+
   return (
     <Box sx={{ p: 3 }}>
-      {/* Page Title */}
       <Typography variant="h5" fontWeight={600} mb={2}>
         Department Daily Entry
       </Typography>
 
-      {/* Table Container */}
       <TableContainer
         component={Paper}
         sx={{
@@ -73,13 +85,16 @@ export default function DepartmentDailyEntry() {
                 <TableCell sx={{ fontWeight: 600 }}>Facebook</TableCell>
                 <TableCell sx={{ fontWeight: 600 }}>Twitter</TableCell>
                 <TableCell sx={{ fontWeight: 600 }}>Instagram</TableCell>
+                <TableCell sx={{ fontWeight: 600 }} align="center">
+                  Action
+                </TableCell>
               </TableRow>
             </TableHead>
 
             <TableBody>
               {data.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={8} align="center">
+                  <TableCell colSpan={9} align="center">
                     No data found
                   </TableCell>
                 </TableRow>
@@ -106,6 +121,22 @@ export default function DepartmentDailyEntry() {
                     <TableCell>{row.Facebook_Posts}</TableCell>
                     <TableCell>{row.Twitter_X_Posts}</TableCell>
                     <TableCell>{row.Instagram_Posts}</TableCell>
+
+                    <TableCell align="center">
+                      <IconButton
+                        onClick={() => handleEdit(row)}
+                        sx={{ color: "black" }}
+                      >
+                        <EditIcon />
+                      </IconButton>
+
+                      <IconButton
+                        onClick={() => handleDelete(row)}
+                        sx={{ color: "black" }}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </TableCell>
                   </TableRow>
                 ))
               )}
