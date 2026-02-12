@@ -12,6 +12,7 @@ import {
   Paper,
   Divider,
   IconButton,
+  MenuItem,
 } from "@mui/material";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 
@@ -21,6 +22,7 @@ export default function LoginForm() {
   const [password, setPassword] = React.useState("");
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
+  const [userType, setUserType] = React.useState("");
 
   const handleLogin = async () => {
     setError("");
@@ -31,6 +33,7 @@ export default function LoginForm() {
         userid: userid,
         usrpassword: password,
         //usertypecode: '01',
+        usertypecode: userType,
       };
 
       const res = await axios.post(
@@ -45,6 +48,7 @@ export default function LoginForm() {
         localStorage.setItem("token", result.token);
         localStorage.setItem("user_id", result.userid);
         localStorage.setItem("user", JSON.stringify(result));
+        localStorage.setItem("loginusertypename",result.loginusertypename)
         router.push(`/form`);
         alert("Login successful");
         // router.push("/dashboard") → if using next/navigation
@@ -115,6 +119,17 @@ export default function LoginForm() {
             ),
           }}
         />
+        <TextField
+          select
+          fullWidth
+          label="User Type"
+          margin="normal"
+          value={userType}
+          onChange={(e) => setUserType(e.target.value)}
+        >
+          <MenuItem value="01">Department</MenuItem>
+          <MenuItem value="03">District</MenuItem>
+        </TextField>
 
         {error && (
           <Typography color="error" variant="body2" sx={{ mt: 1 }}>
