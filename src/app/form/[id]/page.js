@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+
+import axiosClient from "@/lib/axiosClient";
 import {
   Box,
   Button,
@@ -9,7 +11,6 @@ import {
   Paper,
   MenuItem,
 } from "@mui/material";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useParams } from "next/navigation";
 
@@ -41,7 +42,7 @@ const yesterdayDate = yesterday.toISOString().split("T")[0];
     instagramPosts: "",
   });
   const getEntryById = async (entryId) => {
-    const response = await axios.get(
+    const response = await axiosClient.get(
       `/auth/daily-entry/${entryId}`
     );
     return response.data;
@@ -86,7 +87,7 @@ const yesterdayDate = yesterday.toISOString().split("T")[0];
       throw new Error("User ID not found in localStorage");
     }
 
-    const response = await axios.get(
+    const response = await axiosClient.get(
       `/auth/departments/${userId}`
     );
     return response.data;
@@ -132,7 +133,7 @@ const yesterdayDate = yesterday.toISOString().split("T")[0];
     };
 
     try {
-      await axios.put(
+      await axiosClient.put(
         `/auth/district-daily-entry/${id}`,
         payload
       );

@@ -41,6 +41,7 @@ const yesterdayDate = yesterday.toISOString().split("T")[0];
 
   const getDepartmentsByUserId = async () => {
     const userId = localStorage.getItem("user_id");
+    const type = localStorage.getItem("type")
 
     if (!userId) {
       throw new Error("User ID not found in localStorage");
@@ -166,7 +167,7 @@ const yesterdayDate = yesterday.toISOString().split("T")[0];
           {Array.isArray(departments) && departments.length > 0 ? (
             departments.map((dept) => (
               <MenuItem key={dept.dept_id} value={dept.dept_id}>
-                {dept.dept_name}
+                {dept.dept_name}({dept.Department_Name_English})
               </MenuItem>
             ))
           ) : (

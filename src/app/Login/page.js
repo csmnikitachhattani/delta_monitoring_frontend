@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
-import axios from "axios";
 import { useRouter } from "next/navigation";
+import axiosClient from "@/lib/axiosClient";
 
 import {
   Box,
@@ -36,7 +36,7 @@ export default function LoginForm() {
         usertypecode: userType,
       };
 
-      const res = await axios.post(
+      const res = await axiosClient.post(
         "/auth/userLogin",
         payload
       );
@@ -49,6 +49,12 @@ export default function LoginForm() {
         localStorage.setItem("user_id", result.userid);
         localStorage.setItem("user", JSON.stringify(result));
         localStorage.setItem("loginusertypename",result.loginusertypename)
+        if(userType === '01'){
+        localStorage.setItem("type", 'Department')
+        }
+        else if(userType === '03'){
+          localStorage.setItem("type", 'District')
+          }
         router.push(`/form`);
         alert("Login successful");
         // router.push("/dashboard") → if using next/navigation
