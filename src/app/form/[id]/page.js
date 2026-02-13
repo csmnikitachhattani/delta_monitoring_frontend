@@ -63,13 +63,13 @@ const yesterdayDate = yesterday.toISOString().split("T")[0];
         setFormData({
           entryDate: data.Entry_Date?.split("T")[0] || "",
   
-          pressRelease: data.Press_Releases || "",
-          successStories: data.Success_Stories || "",
-          nationalStories: data.Stories_Published_Nationally || "",
-          stateFundPost: data.Stories_Published_State_Front_Page || "",
-          twitterPosts: data.Twitter_X_Posts || "",
-          facebookPosts: data.Facebook_Posts || "",
-          instagramPosts: data.Instagram_Posts || "",
+          pressRelease: data.Press_Releases || 0,
+          successStories: data.Success_Stories || 0,
+          nationalStories: data.Stories_Published_Nationally || 0,
+          stateFundPost: data.Stories_Published_State_Front_Page || 0,
+          twitterPosts: data.Twitter_X_Posts || 0,
+          facebookPosts: data.Facebook_Posts || 0,
+          instagramPosts: data.Instagram_Posts || 0,
         });
       } catch (error) {
         console.error("Failed to fetch entry:", error);
