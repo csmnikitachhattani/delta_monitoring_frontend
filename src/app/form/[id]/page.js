@@ -42,7 +42,7 @@ const yesterdayDate = yesterday.toISOString().split("T")[0];
   });
   const getEntryById = async (entryId) => {
     const response = await axios.get(
-      `http://localhost:3001/api/auth/daily-entry/${entryId}`
+      `/auth/daily-entry/${entryId}`
     );
     return response.data;
   };
@@ -87,7 +87,7 @@ const yesterdayDate = yesterday.toISOString().split("T")[0];
     }
 
     const response = await axios.get(
-      `http://localhost:3001/api/auth/departments/${userId}`
+      `/auth/departments/${userId}`
     );
     return response.data;
   };
@@ -133,7 +133,7 @@ const yesterdayDate = yesterday.toISOString().split("T")[0];
 
     try {
       await axios.put(
-        `http://localhost:3001/api/auth/district-daily-entry/${id}`,
+        `/auth/district-daily-entry/${id}`,
         payload
       );
     

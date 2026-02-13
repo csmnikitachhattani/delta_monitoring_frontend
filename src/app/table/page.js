@@ -26,7 +26,7 @@ export default function DepartmentDailyEntry() {
     try {
       setLoading(true);
       const res = await axios.get(
-        "http://localhost:3001/api/auth/department-daily-entry"
+        "/auth/department-daily-entry"
       );
       setData(res.data.data || []);
     } catch (err) {

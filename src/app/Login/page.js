@@ -37,7 +37,7 @@ export default function LoginForm() {
       };
 
       const res = await axios.post(
-        "http://localhost:3001/api/auth/userLogin",
+        "/auth/userLogin",
         payload
       );
 

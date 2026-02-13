@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import axiosClient from "@/lib/axiosClient";
 import {
   Box,
   Button,
@@ -9,7 +10,6 @@ import {
   Paper,
   MenuItem,
 } from "@mui/material";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 
 const numberFieldProps = {
@@ -46,8 +46,8 @@ const yesterdayDate = yesterday.toISOString().split("T")[0];
       throw new Error("User ID not found in localStorage");
     }
 
-    const response = await axios.get(
-      `http://localhost:3001/api/auth/departments/${userId}`
+    const response = await axiosClient.get(
+      `/auth/departments/${userId}`
     );
     return response.data;
   };
@@ -92,8 +92,8 @@ const yesterdayDate = yesterday.toISOString().split("T")[0];
     };
 
     try {
-      await axios.post(
-        "http://localhost:3001/api/auth/district-daily-entry",
+      await axiosClient.post(
+        "/auth/district-daily-entry",
         payload
       );
     
