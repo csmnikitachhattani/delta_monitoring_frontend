@@ -25,11 +25,22 @@ export default function DepartmentMetricsForm() {
   const router = useRouter();
   const [departments, setDepartments] = useState([]);
   const [selectedDept, setSelectedDept] = useState("");
-  const today = new Date().toISOString().split("T")[0];
 
-const yesterday = new Date();
-yesterday.setDate(yesterday.getDate() - 1);
-const yesterdayDate = yesterday.toISOString().split("T")[0];
+  const [today, setToday] = useState("");
+const [yesterdayDate, setYesterdayDate] = useState("");
+
+useEffect(() => {
+  const now = new Date();
+  const todayStr = now.toISOString().split("T")[0];
+
+  const yest = new Date();
+  yest.setDate(now.getDate() - 1);
+  const yestStr = yest.toISOString().split("T")[0];
+
+  setToday(todayStr);
+  setYesterdayDate(yestStr);
+}, []);
+
   // ✅ ADDED: form state
   const [formData, setFormData] = useState({
     entryDate: "",
@@ -142,6 +153,7 @@ const yesterdayDate = yesterday.toISOString().split("T")[0];
 
       // reset (optional but safe)
       setFormData({
+        entryDate: "",
         pressRelease: "",
         successStories: "",
         nationalStories: "",
@@ -150,6 +162,7 @@ const yesterdayDate = yesterday.toISOString().split("T")[0];
         facebookPosts: "",
         instagramPosts: "",
       });
+      
       setSelectedDept("");
       router.push(`/table`);
     } catch (error) {
@@ -225,11 +238,12 @@ const yesterdayDate = yesterday.toISOString().split("T")[0];
   onChange={handleChange}
   InputLabelProps={{ shrink: true }}
   inputProps={{
-    min: yesterdayDate,
-    max: today,
+    min: yesterdayDate || undefined,
+    max: today || undefined,
   }}
   sx={fieldStyle}
 />
+
 
         <TextField fullWidth label="Press Release" name="pressRelease" value={formData.pressRelease} onChange={handleChange} margin="normal" {...numberFieldProps} sx={fieldStyle} />
         <TextField fullWidth label="Success Stories" name="successStories" value={formData.successStories} onChange={handleChange} margin="normal" {...numberFieldProps} sx={fieldStyle} />
