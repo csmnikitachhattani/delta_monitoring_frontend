@@ -47,6 +47,7 @@ export default function DepartmentMetricsForm() {
     twitterPosts: "",
     facebookPosts: "",
     instagramPosts: "",
+    user_id: localStorage.getItem('user_id')
   });
 
   const getDepartmentsByUserId = async () => {

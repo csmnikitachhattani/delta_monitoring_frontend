@@ -23,17 +23,32 @@ export default function DepartmentDailyEntry() {
   const router = useRouter();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
-
   const goToEdit = async (id) =>{
     router.push(`/form/${id}`);
   }
 
   const fetchData = async () => {
+    const userId = localStorage.getItem("user_id");
+    const type = localStorage.getItem("type");
+  
     try {
       setLoading(true);
+  
+      let typeId;
+  
+      if (type === "Department") {
+        typeId = 1;
+      } else if (type === "District") {
+        typeId = 2;
+      } else {
+        console.warn("Unknown type:", type);
+        return;
+      }
+  
       const res = await axiosClient.get(
-        "/auth/department-daily-entry"
+        `/auth/get-entries?user_id=${userId}&type_id=${typeId}`
       );
+  
       setData(res.data.data || []);
     } catch (err) {
       console.error("Fetch error", err);
@@ -41,6 +56,7 @@ export default function DepartmentDailyEntry() {
       setLoading(false);
     }
   };
+       
 
   useEffect(() => {
     fetchData();
