@@ -25,6 +25,7 @@ export default function DepartmentMetricsForm() {
   const [today, setToday] = useState("");
   const [yesterdayDate, setYesterdayDate] = useState("");
   const type = localStorage.getItem("type");
+  
 
   useEffect(() => {
     const now = new Date();
@@ -90,10 +91,10 @@ export default function DepartmentMetricsForm() {
 
   const handleType = (type) => {
 
-  
+
     if (type === "Department") {
-      return  true;
-    } else{
+      return true;
+    } else {
       return false;
     }
   }
@@ -133,7 +134,7 @@ export default function DepartmentMetricsForm() {
         facebookPosts: "",
         instagramPosts: "",
       });
-      
+
       setSelectedDept("");
       router.push(`/`);
     } catch (error) {
@@ -168,7 +169,7 @@ export default function DepartmentMetricsForm() {
           align="center"
           sx={{ fontWeight: 600, color: "#000", mb: 0.5 }}
         >
-          Department Activity Form
+          {type} Activity Form
         </Typography>
 
         <Typography
@@ -180,43 +181,43 @@ export default function DepartmentMetricsForm() {
         </Typography>
 
         {handleType(type) && (
-  <TextField
-    select
-    fullWidth
-    label="Department"
-    margin="normal"
-    required
-    value={selectedDept}
-    onChange={(e) => setSelectedDept(e.target.value)}
-  >
-    {Array.isArray(departments) && departments.length > 0 ? (
-      departments.map((dept) => (
-        <MenuItem key={dept.dept_id} value={dept.dept_id}>
-          {dept.dept_name} ({dept.Department_Name_English})
-        </MenuItem>
-      ))
-    ) : (
-      <MenuItem disabled>No departments available</MenuItem>
-    )}
-  </TextField>
-)}
+          <TextField
+            select
+            fullWidth
+            label="Department"
+            margin="normal"
+            required
+            value={selectedDept}
+            onChange={(e) => setSelectedDept(e.target.value)}
+          >
+            {Array.isArray(departments) && departments.length > 0 ? (
+              departments.map((dept) => (
+                <MenuItem key={dept.dept_id} value={dept.dept_id}>
+                  {dept.dept_name} ({dept.Department_Name_English})
+                </MenuItem>
+              ))
+            ) : (
+                <MenuItem disabled>No departments available</MenuItem>
+              )}
+          </TextField>
+        )}
 
         <TextField
-  fullWidth
-  label="Activity Date"
-  type="date"
-  margin="normal"
-  required
-  name="entryDate"
-  value={formData.entryDate}
-  onChange={handleChange}
-  InputLabelProps={{ shrink: true }}
-  inputProps={{
-    min: yesterdayDate || undefined,
-    max: today || undefined,
-  }}
-  sx={fieldStyle}
-/>
+          fullWidth
+          label="Activity Date"
+          type="date"
+          margin="normal"
+          required
+          name="entryDate"
+          value={formData.entryDate}
+          onChange={handleChange}
+          InputLabelProps={{ shrink: true }}
+          inputProps={{
+            min: yesterdayDate || undefined,
+            max: today || undefined,
+          }}
+          sx={fieldStyle}
+        />
 
 
         <TextField fullWidth label="Press Release" name="pressRelease" value={formData.pressRelease} onChange={handleChange} margin="normal" {...numberFieldProps} sx={fieldStyle} />
