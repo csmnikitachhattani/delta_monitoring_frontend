@@ -124,7 +124,7 @@ export default function DepartmentMetricsForm() {
       });
       
       setSelectedDept("");
-      router.push(`/table`);
+      router.push(`/`);
     } catch (error) {
       console.error(error);
       alert("Submission failed");
