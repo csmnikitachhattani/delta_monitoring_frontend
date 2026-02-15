@@ -15,6 +15,7 @@ import {
   MenuItem,
 } from "@mui/material";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 
 export default function LoginForm() {
   const router = useRouter();
@@ -23,6 +24,7 @@ export default function LoginForm() {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
   const [userType, setUserType] = React.useState("");
+  const [showPassword, setShowPassword] = React.useState(false);
 
   const handleLogin = async () => {
     setError("");
@@ -69,6 +71,11 @@ export default function LoginForm() {
     }
   };
 
+  const handleTogglePassword = () => {
+    setShowPassword((prev) => !prev);
+  };
+  
+
   return (
     <Box
       sx={{
@@ -110,21 +117,26 @@ export default function LoginForm() {
           onChange={(e) => setUserid(e.target.value)}
         />
 
-        <TextField
-          fullWidth
-          type="password"
-          label="Password"
-          margin="normal"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          InputProps={{
-            endAdornment: (
-              <IconButton edge="end">
-                <VisibilityOffOutlinedIcon fontSize="small" />
-              </IconButton>
-            ),
-          }}
-        />
+<TextField
+  fullWidth
+  type={showPassword ? "text" : "password"}
+  label="Password"
+  margin="normal"
+  value={password}
+  onChange={(e) => setPassword(e.target.value)}
+  InputProps={{
+    endAdornment: (
+      <IconButton edge="end" onClick={handleTogglePassword}>
+        {showPassword ? (
+          <VisibilityOffOutlinedIcon fontSize="small" />
+        ) : (
+          <VisibilityOutlinedIcon fontSize="small" />
+        )}
+      </IconButton>
+    ),
+  }}
+/>
+
         <TextField
           select
           fullWidth
