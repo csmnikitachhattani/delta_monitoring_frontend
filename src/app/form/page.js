@@ -24,6 +24,7 @@ export default function DepartmentMetricsForm() {
   const [selectedDept, setSelectedDept] = useState("");
   const [today, setToday] = useState("");
   const [yesterdayDate, setYesterdayDate] = useState("");
+  const type = localStorage.getItem("type");
 
   useEffect(() => {
     const now = new Date();
@@ -86,6 +87,16 @@ export default function DepartmentMetricsForm() {
     }));
     console.log(formData)
   };
+
+  const handleType = (type) => {
+
+  
+    if (type === "Department") {
+      return  true;
+    } else{
+      return false;
+    }
+  }
 
   // ✅ ADDED: submit POST API
   const handleSubmit = async () => {
@@ -168,25 +179,28 @@ export default function DepartmentMetricsForm() {
           Enter monthly activity numbers (0–100)
         </Typography>
 
-        <TextField
-          select
-          fullWidth
-          label="Department"
-          margin="normal"
-          required
-          value={selectedDept}
-          onChange={(e) => setSelectedDept(e.target.value)}
-        >
-          {Array.isArray(departments) && departments.length > 0 ? (
-            departments.map((dept) => (
-              <MenuItem key={dept.dept_id} value={dept.dept_id}>
-                {dept.dept_name}({dept.Department_Name_English})
-              </MenuItem>
-            ))
-          ) : (
-              <MenuItem disabled>No departments available</MenuItem>
-            )}
-        </TextField>
+        {handleType(type) && (
+  <TextField
+    select
+    fullWidth
+    label="Department"
+    margin="normal"
+    required
+    value={selectedDept}
+    onChange={(e) => setSelectedDept(e.target.value)}
+  >
+    {Array.isArray(departments) && departments.length > 0 ? (
+      departments.map((dept) => (
+        <MenuItem key={dept.dept_id} value={dept.dept_id}>
+          {dept.dept_name} ({dept.Department_Name_English})
+        </MenuItem>
+      ))
+    ) : (
+      <MenuItem disabled>No departments available</MenuItem>
+    )}
+  </TextField>
+)}
+
         <TextField
   fullWidth
   label="Activity Date"
