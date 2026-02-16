@@ -64,7 +64,7 @@ export default function DepartmentMetricsForm() {
         pressRelease: "",
         successStories: "",
         nationalStories: "",
-        stateFundPost: "",
+        stateFrontPost: "",
         twitterPosts: "",
         facebookPosts: "",
         instagramPosts: "",
@@ -109,7 +109,7 @@ export default function DepartmentMetricsForm() {
                     pressRelease: data.Press_Releases || 0,
                     successStories: data.Success_Stories || 0,
                     nationalStories: data.Stories_Published_Nationally || 0,
-                    stateFundPost: data.Stories_Published_State_Front_Page || 0,
+                    stateFrontPost: data.Stories_Published_State_Front_Page || 0,
                     twitterPosts: data.Twitter_X_Posts || 0,
                     facebookPosts: data.Facebook_Posts || 0,
                     instagramPosts: data.Instagram_Posts || 0,
@@ -180,7 +180,7 @@ export default function DepartmentMetricsForm() {
             pressRelease: formData.pressRelease,
             successStories: formData.successStories,
             nationalStories: formData.nationalStories,
-            stateFundPost: formData.stateFundPost,
+            stateFrontPost: formData.stateFrontPost,
             twitterPosts: formData.twitterPosts,
             facebookPosts: formData.facebookPosts,
             instagramPosts: formData.instagramPosts,
@@ -220,14 +220,14 @@ export default function DepartmentMetricsForm() {
                 pressRelease: "",
                 successStories: "",
                 nationalStories: "",
-                stateFundPost: "",
+                stateFrontPost: "",
                 twitterPosts: "",
                 facebookPosts: "",
                 instagramPosts: "",
             });
 
             setSelectedDept("");
-            router.push(`/table`);
+            router.push(`/`);
         } catch (error) {
             console.error(error);
             alert("Submission failed");
@@ -313,7 +313,7 @@ export default function DepartmentMetricsForm() {
                 <TextField fullWidth label="Press Release" name="pressRelease" value={formData.pressRelease} onChange={handleChange} margin="normal" {...numberFieldProps} sx={fieldStyle} />
                 <TextField fullWidth label="Success Stories" name="successStories" value={formData.successStories} onChange={handleChange} margin="normal" {...numberFieldProps} sx={fieldStyle} />
                 <TextField fullWidth label="Stories Published Nationally" name="nationalStories" value={formData.nationalStories} onChange={handleChange} margin="normal" {...numberFieldProps} sx={fieldStyle} />
-                <TextField fullWidth label="State Fund Post" name="stateFundPost" value={formData.stateFundPost} onChange={handleChange} margin="normal" {...numberFieldProps} sx={fieldStyle} />
+                <TextField fullWidth label="State Fund Post" name="stateFrontPost" value={formData.stateFrontPost} onChange={handleChange} margin="normal" {...numberFieldProps} sx={fieldStyle} />
                 <TextField fullWidth label="Twitter Posts" name="twitterPosts" value={formData.twitterPosts} onChange={handleChange} margin="normal" {...numberFieldProps} sx={fieldStyle} />
                 <TextField fullWidth label="Facebook Posts" name="facebookPosts" value={formData.facebookPosts} onChange={handleChange} margin="normal" {...numberFieldProps} sx={fieldStyle} />
                 <TextField fullWidth label="Instagram Posts" name="instagramPosts" value={formData.instagramPosts} onChange={handleChange} margin="normal" {...numberFieldProps} sx={fieldStyle} />
