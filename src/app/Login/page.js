@@ -58,6 +58,7 @@ export default function LoginForm() {
         else if(userType === '03'){
           localStorage.setItem("type", 'District')
           localStorage.setItem('district', result.district_name)
+          localStorage.setItem('district_code', result.district_code)
           }
         router.push(`/form`);
         alert("Login successful");

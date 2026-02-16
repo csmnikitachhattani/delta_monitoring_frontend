@@ -26,15 +26,20 @@ export default function DepartmentMetricsForm() {
   const [yesterdayDate, setYesterdayDate] = useState("");
   const [type, setType] = useState('');
   const [district , setDistrict] = useState('');
+  const [code , setCode] = useState(null);
   
   useEffect(() => {
     const storedType = localStorage.getItem("type");
     const storedDistrict = localStorage.getItem("district")
+    const storedCode = parseInt(localStorage.getItem("district_code"))
+    console.log(storedType,storedCode)
+    setCode(storedCode);
     setType(storedType);
-    if(storedType === 'District'){
+    if(storedType == 'District'){
       setDistrict(storedDistrict)
+      console.log(code)
     }
-  }, []);
+  }, [code]);
 
   
   useEffect(() => {
@@ -186,9 +191,13 @@ export default function DepartmentMetricsForm() {
       twitterPosts: formData.twitterPosts,
       facebookPosts: formData.facebookPosts,
       instagramPosts: formData.instagramPosts,
+      
   
       ...(type === "District"
-        ? { District_name: district }
+        ? { 
+          District_name: district, 
+          District_code: code
+        }
         : {
             deptId: selectedDept,
             departmentName:

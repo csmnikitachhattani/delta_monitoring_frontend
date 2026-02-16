@@ -132,7 +132,7 @@ export default function DepartmentDailyEntry() {
                     }}
                   >
                    
-                   <TableCell>{row.Dept_Id}</TableCell>
+                   <TableCell>{row.District_id}</TableCell>
                     <TableCell>{row.District_name}</TableCell>
                    
                     <TableCell>

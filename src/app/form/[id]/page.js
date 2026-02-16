@@ -59,11 +59,25 @@ export default function DepartmentMetricsForm() {
         facebookPosts: "",
         instagramPosts: "",
     });
+  
     const getEntryById = async (entryId) => {
+        if(type === 'Department'){
         const response = await axiosClient.get(
             `/auth/daily-entry/${entryId}`
         );
+    
+        
         return response.data;
+        }
+        else{
+            const response = await axiosClient.get(
+                `/auth/district-entry/${entryId}`
+            );
+        
+            
+            return response.data;
+
+        }
     };
 
 
