@@ -103,7 +103,9 @@ export default function DepartmentMetricsForm() {
                 setSelectedDept(data.Dept_Id);
 
                 setFormData({
-                    entryDate: data.Entry_Date?.split("T")[0] || "",
+                    entryDate: data.Entry_Date
+  ? data.Entry_Date.split("T")[0]
+  : data.Date?.split("T")[0],
                     pressRelease: data.Press_Releases || 0,
                     successStories: data.Success_Stories || 0,
                     nationalStories: data.Stories_Published_Nationally || 0,
