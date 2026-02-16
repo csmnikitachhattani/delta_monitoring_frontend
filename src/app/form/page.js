@@ -59,7 +59,7 @@ export default function DepartmentMetricsForm() {
     twitterPosts: "",
     facebookPosts: "",
     instagramPosts: "",
-    user_id: localStorage.getItem('user_id')
+    user_id: "",
   });
 
   const getDepartmentsByUserId = async () => {
@@ -88,6 +88,17 @@ export default function DepartmentMetricsForm() {
 
     fetchDepartments();
   }, []);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const userId = localStorage.getItem("user_id");
+      setFormData(prev => ({
+        ...prev,
+        user_id: userId || "",
+      }));
+    }
+  }, []);
+  
 
   // ✅ ADDED: handle input change
   const handleChange = (e) => {
