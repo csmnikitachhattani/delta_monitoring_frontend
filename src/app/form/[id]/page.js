@@ -29,11 +29,21 @@ export default function DepartmentMetricsForm() {
     const [today, setToday] = useState("");
     const [yesterdayDate, setYesterdayDate] = useState("");
     const [type, setType] = useState('');
-  
+    const [district , setDistrict] = useState('');
+    const [code , setCode] = useState(null);
+    
     useEffect(() => {
       const storedType = localStorage.getItem("type");
+      const storedDistrict = localStorage.getItem("district")
+      const storedCode = parseInt(localStorage.getItem("district_code"))
+      console.log(storedType,storedCode)
+      setCode(storedCode);
       setType(storedType);
-    }, []);
+      if(storedType == 'District'){
+        setDistrict(storedDistrict)
+        console.log(code)
+      }
+    }, [code]);
   
 
     useEffect(() => {
@@ -94,7 +104,6 @@ export default function DepartmentMetricsForm() {
 
                 setFormData({
                     entryDate: data.Entry_Date?.split("T")[0] || "",
-
                     pressRelease: data.Press_Releases || 0,
                     successStories: data.Success_Stories || 0,
                     nationalStories: data.Stories_Published_Nationally || 0,
@@ -158,23 +167,48 @@ export default function DepartmentMetricsForm() {
     const handleSubmit = async () => {
         const userId = localStorage.getItem("user_id");
 
-        if (!userId || !selectedDept) {
-            alert("Please select department");
-            return;
-        }
+        // if (!userId || !selectedDept) {
+        //     alert("Please select department");
+        //     return;
+        // }
 
         const payload = {
             user_id: userId,
+            entryDate: formData.entryDate,
+            pressRelease: formData.pressRelease,
+            successStories: formData.successStories,
+            nationalStories: formData.nationalStories,
+            stateFundPost: formData.stateFundPost,
+            twitterPosts: formData.twitterPosts,
+            facebookPosts: formData.facebookPosts,
+            instagramPosts: formData.instagramPosts,
+            ...(type === "District"
+        ? { 
+          District_name: district, 
+          District_code: code
+        }
+        : {
             deptId: selectedDept,
-            departmentName: 'सामान्य प्रशासन',
-            ...formData,
-        };
-
+            departmentName:
+              departments.find(d => d.dept_id === selectedDept)?.dept_name ||
+              "",
+          }),
+    };
+           // ...formData,
+        
         try {
+            if (type === "Department") {
             await axiosClient.put(
                 `/auth/district-daily-entry/${id}`,
                 payload
             );
+            }
+            else{
+                await axiosClient.put(
+                    `/auth/district-entry-update/${id}`,
+                    payload
+                );
+            }
 
             alert("Submitted successfully");
 
