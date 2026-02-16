@@ -75,7 +75,7 @@ export default function DepartmentDailyEntry() {
   return (
     <Box sx={{ p: 3 }}>
       <Typography variant="h5" fontWeight={600} mb={2}>
-        Department Daily Entry
+        District Daily Entry
       </Typography>
 
       <TableContainer
@@ -99,7 +99,8 @@ export default function DepartmentDailyEntry() {
           <Table>
             <TableHead>
               <TableRow sx={{ backgroundColor: "#f5f5f5" }}>
-                <TableCell sx={{ fontWeight: 600 }}>Dept Id</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>District Id</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>District Name</TableCell>
                 <TableCell sx={{ fontWeight: 600 }}>Entry Date</TableCell>
                 <TableCell sx={{ fontWeight: 600 }}>Press</TableCell>
                 <TableCell sx={{ fontWeight: 600 }}>Success</TableCell>
@@ -122,7 +123,7 @@ export default function DepartmentDailyEntry() {
               ) : (
                 data.map((row) => (
                   <TableRow
-                    key={row.Entry_Id}
+                    key={row.entry_id}
                     hover
                     sx={{
                       "& td": {
@@ -131,10 +132,12 @@ export default function DepartmentDailyEntry() {
                     }}
                   >
                    
+                   <TableCell>{row.Dept_Id}</TableCell>
+                    <TableCell>{row.District_name}</TableCell>
                    
                     <TableCell>
-                      {row.Entry_Date
-                        ? new Date(row.Entry_Date).toLocaleDateString()
+                      {row.Date
+                        ? new Date(row.Date).toLocaleDateString()
                         : "-"}
                     </TableCell>
                     <TableCell>{row.Press_Releases}</TableCell>
@@ -145,7 +148,7 @@ export default function DepartmentDailyEntry() {
 
                     <TableCell align="center">
                       <IconButton
-                        onClick={() => goToEdit(row.Entry_Id)}
+                        onClick={() => goToEdit(row.entry_id)}
                         sx={{ color: "black" }}
                       >
                         <EditIcon />

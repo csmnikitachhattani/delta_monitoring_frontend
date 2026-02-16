@@ -253,7 +253,7 @@ export default function DepartmentMetricsForm() {
           align="center"
           sx={{ fontWeight: 600, color: "#000", mb: 0.5 }}
         >
-          {type} Activity Form
+         {district} {type} Activity Form
         </Typography>
 
         <Typography
