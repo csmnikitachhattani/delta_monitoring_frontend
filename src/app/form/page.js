@@ -24,9 +24,19 @@ export default function DepartmentMetricsForm() {
   const [selectedDept, setSelectedDept] = useState("");
   const [today, setToday] = useState("");
   const [yesterdayDate, setYesterdayDate] = useState("");
-  const type = localStorage.getItem("type");
+  const [type, setType] = useState('');
+  const [district , setDistrict] = useState('');
   
+  useEffect(() => {
+    const storedType = localStorage.getItem("type");
+    const storedDistrict = localStorage.getItem("district")
+    setType(storedType);
+    if(storedType === 'District'){
+      setDistrict(storedDistrict)
+    }
+  }, []);
 
+  
   useEffect(() => {
     const now = new Date();
     const todayStr = now.toISOString().split("T")[0];
@@ -100,30 +110,92 @@ export default function DepartmentMetricsForm() {
   }
 
   // ✅ ADDED: submit POST API
+  // const handleSubmit = async () => {
+  //   const userId = localStorage.getItem("user_id");
+
+  //   if (!userId || !selectedDept) {
+  //     alert("Please select department");
+  //     return;
+  //   }
+
+  //   const payload = {
+  //     user_id: userId,
+  //     deptId: selectedDept,
+  //     departmentName: 'सामान्य प्रशासन',
+  //     ...formData,
+  //   };
+
+  //   try {
+  //     await axiosClient.post(
+  //       "/auth/district-daily-entry",
+  //       payload
+  //     );
+
+  //     alert("Submitted successfully");
+
+  //     // reset (optional but safe)
+  //     setFormData({
+  //       entryDate: "",
+  //       pressRelease: "",
+  //       successStories: "",
+  //       nationalStories: "",
+  //       stateFundPost: "",
+  //       twitterPosts: "",
+  //       facebookPosts: "",
+  //       instagramPosts: "",
+  //     });
+
+  //     setSelectedDept("");
+  //     router.push(`/`);
+  //   } catch (error) {
+  //     console.error(error);
+  //     alert("Submission failed");
+  //   }
+  // };
   const handleSubmit = async () => {
     const userId = localStorage.getItem("user_id");
-
-    if (!userId || !selectedDept) {
+  
+    if (!userId) {
+      alert("User not found");
+      return;
+    }
+  
+    if (type === "Department" && !selectedDept) {
       alert("Please select department");
       return;
     }
-
+  
     const payload = {
       user_id: userId,
-      deptId: selectedDept,
-      departmentName: 'सामान्य प्रशासन',
-      ...formData,
+      entryDate: formData.entryDate,
+      pressRelease: formData.pressRelease,
+      successStories: formData.successStories,
+      nationalStories: formData.nationalStories,
+      stateFundPost: formData.stateFundPost,
+      twitterPosts: formData.twitterPosts,
+      facebookPosts: formData.facebookPosts,
+      instagramPosts: formData.instagramPosts,
+  
+      ...(type === "District"
+        ? { District_name: district }
+        : {
+            deptId: selectedDept,
+            departmentName:
+              departments.find(d => d.dept_id === selectedDept)?.dept_name ||
+              "",
+          }),
     };
-
+  
     try {
-      await axiosClient.post(
-        "/auth/district-daily-entry",
-        payload
-      );
-
+      if(type === 'Department'){
+      await axiosClient.post("/auth/district-daily-entry", payload);
+      }
+      else{
+        await axiosClient.post("/auth/district-entry", payload);
+      }
+  
       alert("Submitted successfully");
-
-      // reset (optional but safe)
+  
       setFormData({
         entryDate: "",
         pressRelease: "",
@@ -134,7 +206,7 @@ export default function DepartmentMetricsForm() {
         facebookPosts: "",
         instagramPosts: "",
       });
-
+  
       setSelectedDept("");
       router.push(`/`);
     } catch (error) {
@@ -142,6 +214,7 @@ export default function DepartmentMetricsForm() {
       alert("Submission failed");
     }
   };
+  
 
   return (
     <Box

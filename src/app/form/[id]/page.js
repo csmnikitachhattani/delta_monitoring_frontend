@@ -28,7 +28,13 @@ export default function DepartmentMetricsForm() {
 
     const [today, setToday] = useState("");
     const [yesterdayDate, setYesterdayDate] = useState("");
-    const type = localStorage.getItem("type");
+    const [type, setType] = useState('');
+  
+    useEffect(() => {
+      const storedType = localStorage.getItem("type");
+      setType(storedType);
+    }, []);
+  
 
     useEffect(() => {
         const now = new Date();
