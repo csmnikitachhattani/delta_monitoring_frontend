@@ -1,10 +1,19 @@
 import { combineReducers } from "@reduxjs/toolkit";
-// import realeaseReducer from "@/store/modules/newspaper/realeaseSlice";
-// import vehicleReducer from "@/store/modules/outdoor/vehicleSlice"
+
+/**
+ * 🛠️ ROOT REDUCER
+ * This file combines all individual slices. 
+ * We use a dummy reducer to ensure the store is never empty on initialization.
+ */
+
+const dummyReducer = (state = { initialized: true }, action) => {
+    return state;
+};
 
 const rootReducer = combineReducers({
-//   realease: realeaseReducer,
-//   vehicle : vehicleReducer,
+    app: dummyReducer,
+    // Add your real slices here as you create them, e.g.:
+    // auth: authReducer,
 });
 
 export default rootReducer;
