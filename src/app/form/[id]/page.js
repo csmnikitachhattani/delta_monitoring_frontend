@@ -32,19 +32,7 @@ export default function DepartmentMetricsForm() {
     const [district , setDistrict] = useState('');
     const [code , setCode] = useState(null);
     
-    useEffect(() => {
-      const storedType = localStorage.getItem("type");
-      const storedDistrict = localStorage.getItem("district")
-      const storedCode = parseInt(localStorage.getItem("district_code"))
-      console.log(storedType,storedCode)
-      setCode(storedCode);
-      setType(storedType);
-      if(storedType == 'District'){
-        setDistrict(storedDistrict)
-        console.log(code)
-      }
-    }, [code]);
-  
+    
 
     useEffect(() => {
         const now = new Date();
@@ -89,9 +77,21 @@ export default function DepartmentMetricsForm() {
 
         }
     };
-
-
     useEffect(() => {
+        const storedType = localStorage.getItem("type");
+        const storedDistrict = localStorage.getItem("district")
+        const storedCode = parseInt(localStorage.getItem("district_code"))
+        console.log(storedType,storedCode)
+        setCode(storedCode);
+        setType(storedType);
+        if(storedType == 'District'){
+          setDistrict(storedDistrict)
+          console.log(code)
+        }
+    //   }, [code]);
+    
+
+    // useEffect(() => {
         if (!id) return;
 
         const fetchEntryData = async () => {
@@ -120,7 +120,7 @@ export default function DepartmentMetricsForm() {
         };
 
         fetchEntryData();
-    }, [id]);
+    }, [id, code]);
 
 
     const getDepartmentsByUserId = async () => {
@@ -201,7 +201,7 @@ export default function DepartmentMetricsForm() {
         try {
             if (type === "Department") {
             await axiosClient.put(
-                `/auth/district-daily-entry/${id}`,
+                `/auth/department-daily-entry/${id}`,
                 payload
             );
             }

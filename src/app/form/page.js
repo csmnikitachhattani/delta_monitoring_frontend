@@ -132,10 +132,10 @@ export default function DepartmentMetricsForm() {
 
         try {
             // ROUTING LOGIC:
-            // Even though the route says 'district-daily-entry', 
+            // Even though the route says 'department-daily-entry', 
             // your backend has it linked to 'insertDepartmentDailyEntry'
             const endpoint = type === "Department"
-                ? "/auth/district-daily-entry"
+                ? "/auth/department-daily-entry"
                 : "/auth/district-entry";
 
             const response = await axiosClient.post(endpoint, payload);
