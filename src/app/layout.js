@@ -1,6 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Logout from '@/components/LogoutButton'
+import Create from '@/components/CreateButton'
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -377,33 +378,21 @@ export default function RootLayout({ children }) {
                 </svg>
               </div>
               <span className="brand-wordmark">
-                <span>Δ</span> Delta
+                 Delta Monitoring
               </span>
             </a>
 
             {/* Live status pill */}
-            <div className="navbar-center">
+            {/* <div className="navbar-center">
               <div className="status-dot" />
               <span className="status-label">Live · 24 streams</span>
-            </div>
+            </div> */}
 
             {/* Actions */}
             <div className="navbar-actions">
-              <button className="btn btn-create">
-                <svg
-                  width="13" height="13"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <line x1="12" y1="5" x2="12" y2="19" />
-                  <line x1="5" y1="12" x2="19" y2="12" />
-                </svg>
-                Create
-              </button>
+         
+              <Create />
+
 
               <Logout />
             </div>
