@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Logout from '@/components/LogoutButton'
 import Create from '@/components/CreateButton'
+import StoreProvider from "@/providers/StoreProvider";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -356,7 +357,9 @@ export default function RootLayout({ children }) {
           }
         `}</style>
       </head>
+     
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <StoreProvider>
         <div className="scan-lines" aria-hidden="true" />
 
         <div className="app-shell">
@@ -418,6 +421,7 @@ export default function RootLayout({ children }) {
             </div>
           </div>
         </div>
+        </StoreProvider>
       </body>
     </html>
   );
