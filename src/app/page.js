@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import axiosClient from "@/lib/axiosClient";
 import DepartmentTable from "@/components/departmentTable"
 import DistrictTable from "@/components/districtTable"
+import DeleteModal from "@/components/DeleteModal"
 import {
   Box,
   Paper,
@@ -89,6 +90,7 @@ export default function DepartmentDailyEntry() {
     ) : (
       <DistrictTable />
     )}
+    <DeleteModal />
   </Box>
   
   );

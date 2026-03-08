@@ -1,6 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import axiosClient from "@/lib/axiosClient";
+import { useDispatch, useSelector } from "react-redux";
+import { openDeleteModal } from "@/store/modules/deleteSlice";
 import {
   Box,
   Paper,
@@ -20,12 +22,16 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 export default function DepartmentDailyEntry() {
+  const dispatch = useDispatch();
   const router = useRouter();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const goToEdit = async (id) =>{
     router.push(`/form/${id}`);
   }
+  const handleOpen = () => {
+    dispatch(openDeleteModal());
+  };
 
   const fetchData = async () => {
     const userId = localStorage.getItem("user_id");
@@ -153,7 +159,7 @@ export default function DepartmentDailyEntry() {
                       </IconButton>
 
                       <IconButton
-                        onClick={() => handleDelete(row)}
+                        onClick={() => handleOpen()}
                         sx={{ color: "black" }}
                       >
                         <DeleteIcon />

@@ -1,4 +1,6 @@
 import { combineReducers } from "@reduxjs/toolkit";
+//import deleteModalReducer from "@/store/modules/deleteSlice";
+import deleteReducer from "@/store/modules/deleteSlice";
 
 /**
  * 🛠️ ROOT REDUCER
@@ -12,6 +14,8 @@ const dummyReducer = (state = { initialized: true }, action) => {
 
 const rootReducer = combineReducers({
     app: dummyReducer,
+    delete : deleteReducer,
+    //delete: deleteModalReducer
     // Add your real slices here as you create them, e.g.:
     // auth: authReducer,
 });
