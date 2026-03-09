@@ -90,15 +90,41 @@ export default function DepartmentMetricsForm() {
         setType(localStorage.getItem("type") || "");
         setDistrict(localStorage.getItem("district") || "");
         const userStr = localStorage.getItem("user");
-        if (userStr) {
-            const user = JSON.parse(userStr);
-            const entities = (user.assignedEntities || []).map(e =>
-                typeof e === 'string' ? e : (e.Department_name_english || "Unknown")
-            );
-            setDepartments(entities);
-            if (entities.length === 1) setSelectedDept(entities[0]);
-        }
+        // if (userStr) {
+        //     const user = JSON.parse(userStr);
+        //     const entities = (user.assignedEntities || []).map(e =>
+        //         typeof e === 'string' ? e : (e.Department_name_english || "Unknown")
+        //     );
+        //     console.log(user.assignedEntities)
+        //     setDepartments(entities);
+        //     if (entities.length === 1) setSelectedDept(entities[0]);
+        // }
     }, [updateStatus]);
+    const getDepartmentsByUserId = async () => {
+        const userId = localStorage.getItem("user_id");
+
+        if (!userId) {
+            throw new Error("User ID not found in localStorage");
+        }
+
+        const response = await axiosClient.get(
+            `/auth/departments/${userId}`
+        );
+        return response.data;
+    };
+
+    useEffect(() => {
+        const fetchDepartments = async () => {
+            try {
+                const res = await getDepartmentsByUserId();
+                setDepartments(res.data);
+            } catch (err) {
+                console.error(err.message);
+            }
+        };
+
+        fetchDepartments();
+    }, []);
 
     const handleLogout = () => {
         localStorage.clear();
@@ -115,12 +141,42 @@ export default function DepartmentMetricsForm() {
         setOpenReview(false);
         setLoading(true);
 
+        // const payload = {
+        //     user_id: localStorage.getItem("user_id"),
+        //     Entry_Date: formData.entryDate,
+        //     // We send the department name to the "Department_Name" field
+           
+        //     if(type === "Department"){
+        //     District_Name: district,
+        //     }
+        //     else{
+        //         Department_Name: type === "Department" ? selectedDept : "District Office",
+        //     }
+        //     Press_Releases: Number(formData.pressRelease) || 0,
+        //     Success_Stories: Number(formData.successStories) || 0,
+        //     National_Stories: Number(formData.nationalStories) || 0,
+        //     State_Front_Post: Number(formData.stateFrontPost) || 0,
+        //     Twitter_X_Posts: Number(formData.twitterPosts) || 0,
+        //     Facebook_Posts: Number(formData.facebookPosts) || 0,
+        //     Instagram_Posts: Number(formData.instagramPosts) || 0,
+        // };
         const payload = {
             user_id: localStorage.getItem("user_id"),
             Entry_Date: formData.entryDate,
-            // We send the department name to the "Department_Name" field
-            Department_Name: type === "Department" ? selectedDept : "District Office",
-            District_Name: district,
+          
+            instagramPosts: formData.instagramPosts,
+            ...(type === "District"
+        ? { 
+          District_name: district, 
+          District_code: code
+        }
+        : {
+            deptId: selectedDept,
+            departmentName:
+              departments.find(d => d.dept_id === selectedDept)?.dept_name ||
+              "",
+          }),
+          
             Press_Releases: Number(formData.pressRelease) || 0,
             Success_Stories: Number(formData.successStories) || 0,
             National_Stories: Number(formData.nationalStories) || 0,
@@ -128,7 +184,7 @@ export default function DepartmentMetricsForm() {
             Twitter_X_Posts: Number(formData.twitterPosts) || 0,
             Facebook_Posts: Number(formData.facebookPosts) || 0,
             Instagram_Posts: Number(formData.instagramPosts) || 0,
-        };
+          };
 
         try {
             // ROUTING LOGIC:
@@ -195,9 +251,28 @@ export default function DepartmentMetricsForm() {
 
                 <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
                     {type === "Department" && (
-                        <StyledTextField select fullWidth label="Department" value={selectedDept} onChange={(e) => setSelectedDept(e.target.value)}>
-                            {departments.map((d, i) => <MenuItem key={i} value={d}>{d}</MenuItem>)}
-                        </StyledTextField>
+                        // <StyledTextField select fullWidth label="Department" value={selectedDept} onChange={(e) => setSelectedDept(e.target.value)}>
+                        //     {departments.map((d, i) => <MenuItem key={i} value={d}>{d}</MenuItem>)}
+                        // </StyledTextField>
+                        <TextField
+                        select
+                        fullWidth
+                        label="Department"
+                        margin="normal"
+                        required
+                        value={selectedDept}
+                        onChange={(e) => setSelectedDept(e.target.value)}
+                    >
+                        {Array.isArray(departments) && departments.length > 0 ? (
+                            departments.map((dept) => (
+                                <MenuItem key={dept.dept_id} value={dept.dept_id}>
+                                    {dept.dept_name} ({dept.Department_Name_English})
+                                </MenuItem>
+                            ))
+                        ) : (
+                                <MenuItem disabled>No departments available</MenuItem>
+                            )}
+                    </TextField>
                     )}
 
                     <StyledTextField

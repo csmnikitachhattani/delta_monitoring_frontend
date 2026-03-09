@@ -77,7 +77,7 @@ export default function LoginForm() {
 
                 alert("Login successful");
                 // Using window.location to resolve router compatibility issues in the preview
-                window.location.href = "/form";
+               // window.location.href = "/form";
             } else {
                 setError(result?.message || "Invalid credentials");
             }
