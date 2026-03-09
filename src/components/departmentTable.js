@@ -29,8 +29,9 @@ export default function DepartmentDailyEntry() {
   const goToEdit = async (id) =>{
     router.push(`/form/${id}`);
   }
-  const handleOpen = () => {
-    dispatch(openDeleteModal());
+  const handleOpen = (row) => {
+    console.log(row)
+    dispatch(openDeleteModal({id: row.Entry_Id, type:'department'}));
   };
 
   const fetchData = async () => {
@@ -159,7 +160,7 @@ export default function DepartmentDailyEntry() {
                       </IconButton>
 
                       <IconButton
-                        onClick={() => handleOpen()}
+                        onClick={() => handleOpen(row)}
                         sx={{ color: "black" }}
                       >
                         <DeleteIcon />

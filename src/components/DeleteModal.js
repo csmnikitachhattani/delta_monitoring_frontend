@@ -17,7 +17,7 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import CloseIcon from "@mui/icons-material/Close";
 import WarningAmberRoundedIcon from "@mui/icons-material/WarningAmberRounded";
 
-import { closeDeleteModal } from "@/store/modules/deleteSlice";
+import { closeDeleteModal,  deleteItem } from "@/store/modules/deleteSlice";
 
 export default function DeleteModal({
   onConfirm,
@@ -31,15 +31,25 @@ export default function DeleteModal({
   // get modal state from redux
   const open = useSelector((state) => state.delete.open);
   const itemId = useSelector((state) => state.delete.itemId);
+  const type = useSelector((state) => state.delete.type);
 
   const handleClose = () => {
     dispatch(closeDeleteModal());
   };
 
+  // const handleConfirm = () => {
+  //   if (onConfirm) {
+  //     onConfirm(itemId);
+  //   }
+  //   dispatch(closeDeleteModal());
+  // };
   const handleConfirm = () => {
-    if (onConfirm) {
-      onConfirm(itemId);
-    }
+    dispatch(
+      deleteItem({
+        id: itemId,
+        type: type
+      })
+    );
     dispatch(closeDeleteModal());
   };
 

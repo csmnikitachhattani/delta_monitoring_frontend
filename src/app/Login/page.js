@@ -1,5 +1,4 @@
 "use client";
-
 import * as React from "react";
 
 import {
@@ -15,10 +14,6 @@ import {
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 
-/**
- * Note: We are using native window.location for navigation and fetch for API calls
- * to ensure compatibility with the preview environment while resolving dependency errors.
- */
 
 export default function LoginForm() {
     const [isMounted, setIsMounted] = React.useState(false);
