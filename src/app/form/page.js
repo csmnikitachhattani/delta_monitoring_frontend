@@ -141,25 +141,7 @@ export default function DepartmentMetricsForm() {
         setOpenReview(false);
         setLoading(true);
 
-        // const payload = {
-        //     user_id: localStorage.getItem("user_id"),
-        //     Entry_Date: formData.entryDate,
-        //     // We send the department name to the "Department_Name" field
-           
-        //     if(type === "Department"){
-        //     District_Name: district,
-        //     }
-        //     else{
-        //         Department_Name: type === "Department" ? selectedDept : "District Office",
-        //     }
-        //     Press_Releases: Number(formData.pressRelease) || 0,
-        //     Success_Stories: Number(formData.successStories) || 0,
-        //     National_Stories: Number(formData.nationalStories) || 0,
-        //     State_Front_Post: Number(formData.stateFrontPost) || 0,
-        //     Twitter_X_Posts: Number(formData.twitterPosts) || 0,
-        //     Facebook_Posts: Number(formData.facebookPosts) || 0,
-        //     Instagram_Posts: Number(formData.instagramPosts) || 0,
-        // };
+    
         const payload = {
             user_id: localStorage.getItem("user_id"),
             Entry_Date: formData.entryDate,
@@ -168,7 +150,7 @@ export default function DepartmentMetricsForm() {
             ...(type === "District"
         ? { 
           District_name: district, 
-          District_code: code
+          //District_code: code ||
         }
         : {
             deptId: selectedDept,
@@ -177,13 +159,13 @@ export default function DepartmentMetricsForm() {
               "",
           }),
           
-            Press_Releases: Number(formData.pressRelease) || 0,
-            Success_Stories: Number(formData.successStories) || 0,
-            National_Stories: Number(formData.nationalStories) || 0,
-            State_Front_Post: Number(formData.stateFrontPost) || 0,
-            Twitter_X_Posts: Number(formData.twitterPosts) || 0,
-            Facebook_Posts: Number(formData.facebookPosts) || 0,
-            Instagram_Posts: Number(formData.instagramPosts) || 0,
+            Press_Releases: formData.pressRelease || 0,
+            Success_Stories: formData.successStories || 0,
+            National_Stories: formData.nationalStories || 0,
+            State_Front_Post: formData.stateFrontPost || 0,
+            Twitter_X_Posts: formData.twitterPosts || 0,
+            Facebook_Posts: formData.facebookPosts || 0,
+            Instagram_Posts: formData.instagramPosts || 0,
           };
 
         try {

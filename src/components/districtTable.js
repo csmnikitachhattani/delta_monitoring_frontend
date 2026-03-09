@@ -69,9 +69,15 @@ export default function DepartmentDailyEntry() {
     console.log("Edit clicked:", row);
     // TODO: Navigate to edit page or open modal
   };
-  const handleopen = () => {
-    dispatch(openDeleteModal());
-  };
+  // const handleopen = () => {
+  //   dispatch(openDeleteModal());
+  // };
+
+const handleOpen = (row) => {
+  console.log(row)
+  dispatch(openDeleteModal({id: row.entry_id, type:'district'}));
+};
+
 
   const handleDelete = (row) => {
     console.log("Delete clicked:", row);
@@ -161,7 +167,7 @@ export default function DepartmentDailyEntry() {
                       </IconButton>
 
                       <IconButton
-                        onClick={() => handleOpen()}
+                        onClick={() => handleOpen(row)}
                         sx={{ color: "black" }}
                       >
                         <DeleteIcon />

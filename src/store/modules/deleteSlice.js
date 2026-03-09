@@ -13,7 +13,7 @@ export const deleteItem = createAsyncThunk(
       if (type === "department") {
         url = `http://localhost:3001/api/auth/department-entry/${id}`;
       } else if (type === "district") {
-        url = `/api/delete-district/${id}`;
+        url = `http://localhost:3001/api/auth/district-delete-entry/${id}`;
       }
 
       const response = await axios.delete(url);
