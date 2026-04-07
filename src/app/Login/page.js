@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import axiosClient from "@/lib/axiosClient";
 
 
 export default function LoginForm() {
@@ -39,13 +40,19 @@ export default function LoginForm() {
             };
 
             // Using native fetch instead of axiosClient to resolve path alias issues in this environment
-            const response = await fetch("http://103.79.34.50:3001/api/auth/userLogin", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(payload),
-            });
+            const response = await axiosClient.post('/auth/userLogin',   {method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+        });
+            // const response = await fetch("http://localhost:3001/api/auth/userLogin", {
+            //     method: "POST",
+            //     headers: {
+            //         "Content-Type": "application/json",
+            //     },
+            //     body: JSON.stringify(payload),
+            // });
 
             if (!response.ok) {
                 throw new Error("Login request failed");
