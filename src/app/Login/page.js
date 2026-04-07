@@ -40,19 +40,10 @@ export default function LoginForm() {
             };
 
             // Using native fetch instead of axiosClient to resolve path alias issues in this environment
-            const response = await axiosClient.post('/auth/userLogin',   {method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(payload),
-        });
-            // const response = await fetch("http://localhost:3001/api/auth/userLogin", {
-            //     method: "POST",
-            //     headers: {
-            //         "Content-Type": "application/json",
-            //     },
-            //     body: JSON.stringify(payload),
-            // });
+            const response = await axiosClient.post('/auth/userLogin',
+           payload
+            );
+            
 
             if (!response.ok) {
                 throw new Error("Login request failed");
